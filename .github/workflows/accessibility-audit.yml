@@ -1,0 +1,17 @@
+name: CI Accessibility Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  a11y_lint:
+    runs-on: ubuntu-latest
+    name: Run Contextual WCAG Audit
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Linter
+        # Temporarily points to your local workspace code repository path once pushed to GitHub
+        uses: chan-anni/a11y-context-checker@main
