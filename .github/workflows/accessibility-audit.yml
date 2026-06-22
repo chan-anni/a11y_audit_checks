@@ -1,17 +1,22 @@
-name: CI Accessibility Lint
+name: Accessibility Audit Practice
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: [push, pull_request]
 
 jobs:
-  a11y_lint:
+  audit:
     runs-on: ubuntu-latest
-    name: Run Contextual WCAG Audit
+    
+    permissions:
+      contents: read
+      pull-requests: write   # Gives the token permission to post text reviews
+      checks: write
+
     steps:
-      - name: Checkout Code
+      - name: Checkout target code
         uses: actions/checkout@v4
 
-      - name: Run Linter
-        # Temporarily points to your local workspace code repository path once pushed to GitHub
+      - name: Run Accessibility Audit
         uses: chan-anni/a11y-context-checker@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}       # <-- PASS THIS INHERENT TOKEN
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # <-- PASS YOUR AI KEY
